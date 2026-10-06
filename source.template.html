@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>스도쿠던전 — 숲의 네 봉인</title>
+<style>
+:root{--bg:#111e19;--panel:#192c24;--line:#355143;--mint:#99ddba;--gold:#edcb7d;--paper:#f0eddf;--ink:#263b32;--dim:#acc0b1;--danger:#f19582}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 75% 20%,#284536 0,#13271e 45%,#0d1b16 100%);color:#e4eddf;font-family:"Malgun Gothic","Segoe UI",sans-serif;font-size:14px;min-height:100vh}button{font:inherit;cursor:pointer;color:inherit}button:focus-visible{outline:3px solid #f5cd76;outline-offset:3px}button:disabled{cursor:default;opacity:.5}header{max-width:1240px;margin:auto;padding:20px 28px 15px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #34483c}.brand{display:flex;align-items:center;gap:12px}.mark{display:grid;grid-template-columns:repeat(3,5px);gap:3px;transform:rotate(-10deg)}.mark i{width:5px;height:5px;background:var(--mint);border-radius:1px}.eyebrow{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--mint);margin-bottom:5px}h1{font-size:23px;letter-spacing:-1px;margin:0;font-weight:800}header small{color:var(--dim);font-size:12px;margin-left:12px}.topButtons{display:flex;gap:8px}.quiet{border:1px solid #48604f;background:#1b2d23;border-radius:7px;padding:8px 12px}.quiet:hover{background:#2d4836}.main{max-width:1240px;margin:auto;padding:16px 28px 26px}.journey{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}.stage{padding:9px 12px;border-bottom:2px solid #3b5143;color:#839d8c;display:flex;gap:9px;align-items:center}.stage b{width:24px;height:24px;display:grid;place-items:center;border:1px solid #48604f;border-radius:50%;font-size:12px}.stage.current{color:#f4efd7;border-color:var(--gold);background:linear-gradient(90deg,#344d33,transparent);border-radius:6px 6px 0 0}.stage.done{color:#92d3a8;border-color:#82b896}.stage small{margin-left:auto;font-size:10px}.columns{display:grid;grid-template-columns:minmax(435px,1fr) minmax(400px,.98fr);gap:24px;align-items:start}.boardPanel{background:var(--paper);border-radius:16px;padding:19px 22px 20px;color:var(--ink);box-shadow:0 14px 35px #0004;border:1px solid #fff8}.panelHeading{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}.panelHeading h2{font-size:19px;margin:0;letter-spacing:-.6px}.tag{font-size:11px;border:1px solid #bac5b4;border-radius:20px;padding:3px 9px;color:#516650}.rule{font-size:12px;line-height:1.6;min-height:37px;margin:0 0 10px;color:#5e705f}.boardWrap{position:relative;margin:0 auto;max-width:510px}.colLabels{display:grid;grid-template-columns:repeat(9,1fr);padding-left:20px;color:#7e8f7d;font-size:10px;text-align:center;margin:0 0 5px}.boardBody{display:flex}.rowLabels{display:flex;flex-direction:column;justify-content:space-around;width:20px;color:#7e8f7d;font-size:10px;text-align:left;flex-shrink:0}.board{display:grid;grid-template-columns:repeat(9,1fr);width:100%;aspect-ratio:1;border:2px solid #495e4c;border-radius:3px;overflow:hidden;background:#aebaaa}.cell{position:relative;border:0;border-right:1px solid #c0c8b8;border-bottom:1px solid #c0c8b8;background:#f7f4e9;color:#2e4135;font-size:clamp(20px,2.1vw,29px);font-family:Georgia,"Times New Roman",serif;font-weight:700;padding:0;aspect-ratio:1;transition:background .12s,color .12s;display:flex;align-items:center;justify-content:center;min-width:0}.cell.boxRight{border-right:2px solid #607260}.cell.boxBottom{border-bottom:2px solid #607260}.cell.given{background:#e4e8d9;color:#4e6051;font-weight:400}.cell.peer{background:#e4eee2}.cell.same{background:#d7e7c7}.cell.diag{background:#e1e9cf}.cell.diag::after{content:"";position:absolute;inset:3px;border-top:1px solid #afc486;pointer-events:none}.cell.empty{color:#267157}.cell.locked{background:repeating-linear-gradient(135deg,#e3e3d7,#e3e3d7 5px,#dcdfd0 5px,#dcdfd0 10px);color:#8a937f}.cell.locked .lock{font-family:system-ui;font-size:16px}.cell.selected{background:#c6dfb5;box-shadow:inset 0 0 0 3px #426d48;z-index:1}.cell.draft{color:#297b73}.cell.error{color:#a82e2b;background:#f5d0bb;box-shadow:inset 0 0 0 3px #b65a46}.cell.solved{font-weight:800;color:#287552}.cell.rowFlash{animation:rowflash .8s ease}@keyframes rowflash{50%{background:#edcd72}}.chainBadge{position:absolute;top:1px;left:3px;font-size:10px;font-family:system-ui;color:#66825d;line-height:1}.notes{font-family:system-ui;display:grid;grid-template-columns:repeat(3,1fr);width:90%;height:90%;font-size:10px;font-weight:400;align-items:center}.notes span{min-width:8px;line-height:1}.boardMessage{min-height:38px;margin:10px 0 0;font-size:12px;line-height:1.5;font-weight:600;color:#5b7058}.boardMessage.bad{color:#a14232}.numberpad{display:grid;grid-template-columns:repeat(9,1fr);gap:4px;margin-top:4px}.numberpad button{border:1px solid #aabca5;background:#fffdf1;color:#345b40;border-radius:6px;padding:5px 0 4px;font-size:23px;line-height:1.15;font-family:Georgia,serif;font-weight:700}.numberpad button span{display:block;font-family:system-ui;font-size:9px;color:#6e8568;margin-top:4px}.numberpad button:hover,.numberpad button.active{background:#d9e8c8;border-color:#507a51}.numberpad button.attackNum{border-bottom:3px solid #b89561}.numberpad button.defendNum{border-bottom:3px solid #679c9f}.numberpad button.moveNum{border-bottom:3px solid #8daa64}.entryRow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px}.utilities{display:flex;gap:5px}.utilities button{border:1px solid #c0c9b6;border-radius:5px;background:transparent;color:#516951;padding:7px 8px;font-size:11px}.utilities button.on{background:#345d44;color:#e2efd9}.confirm{background:#356044;color:#f4f4dd;border:0;border-radius:7px;min-width:153px;padding:10px 14px;font-size:13px;font-weight:700;box-shadow:0 3px #234531}.confirm:hover{background:#447955}.confirm:disabled{background:#8e9d85;box-shadow:none}.inputHint{font-size:10px;color:#7b8b77;text-align:right;margin-top:8px}.actionPreview{background:#e0e7d3;border-radius:6px;margin-top:9px;padding:8px 10px;font-size:11px;display:flex;justify-content:space-between;gap:10px;min-height:32px;color:#556b4d}.actionPreview b{color:#2e6247}.dungeonPanel{min-width:0}.vitals{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;background:#1d3328;border:1px solid #415d46;border-radius:11px;padding:12px 14px}.hpLabel{font-size:11px;color:#b9ceb7;margin-bottom:5px}.hpLabel b{float:right;color:#f0dacc}.hpbar{height:8px;background:#3c4635;border-radius:4px;overflow:hidden}.hpbar span{display:block;height:100%;background:linear-gradient(90deg,#b5c08b,#dfd095);transition:width .3s}.shield{text-align:center;border-left:1px solid #466046;padding-left:14px;color:#8ed0d0;font-size:11px;min-width:62px}.shield b{font-size:23px;display:block;line-height:1.1}.sceneWrap{position:relative;aspect-ratio:1.12;margin-top:12px;border-radius:14px;overflow:hidden;background:#274338;border:1px solid #4c6550;box-shadow:0 14px 35px #0003}.sceneWrap canvas{width:100%;height:100%;display:block}.sceneCaption{position:absolute;top:13px;left:14px;right:14px;display:flex;justify-content:space-between;pointer-events:none;color:#eee9c9;font-size:11px;text-shadow:0 2px 3px #000}.sceneCaption b{font-weight:400;color:#c6dcc2}.sceneCaption .area{background:#163522b3;padding:5px 8px;border:1px solid #60735380;border-radius:20px;backdrop-filter:blur(3px)}.sceneEvent{position:absolute;top:30%;left:0;width:100%;text-align:center;font-size:27px;font-weight:800;color:#e9edba;text-shadow:0 3px 15px #000;pointer-events:none;opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s}.sceneEvent.show{opacity:1;transform:translateY(0)}.sceneEvent.trap{color:#ffb59d}.sceneEvent.defend{color:#a0e7e9}.sceneBottom{position:absolute;bottom:10px;left:12px;right:12px;display:flex;justify-content:space-between;font-size:10px;color:#d3e1c8;pointer-events:none}.sceneBottom span{background:#15271be0;border:1px solid #62735088;padding:5px 9px;border-radius:20px}.intent{background:#2b3829;border:1px solid #65704d;border-radius:9px;padding:11px 13px;margin-top:12px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px}.enemySigil{width:31px;height:31px;border:1px solid #9c7e63;border-radius:50%;display:grid;place-items:center;color:#e6a784;background:#483b2b;font-size:15px}.intent small{display:block;color:#aebd9c;font-size:10px;margin-bottom:3px}.intent strong{font-size:13px;color:#f0dcae}.enemyHp{color:#c8cba4;font-size:12px;text-align:right}.enemyHp b{font-size:18px}.intent.danger{border-color:#c79069;background:#3d3d2a}.intent.defeated{border-color:#456143;background:#213b29}.log{padding:13px 4px 0}.logTitle{display:flex;justify-content:space-between;font-size:11px;color:#a8bd9f;margin-bottom:7px}.log ul{list-style:none;margin:0;padding:0}.log li{font-size:11px;line-height:1.65;color:#becdb2;padding:3px 0;border-bottom:1px solid #31452f60;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.log li:first-child{color:#edf0cf}.log li:before{content:'·';padding-right:8px;color:#93b994}.assumption{max-width:1240px;margin:auto;padding:0 28px 20px;color:#829b88;font-size:10px;line-height:1.5}.modalShade{position:fixed;inset:0;background:#081710b8;backdrop-filter:blur(9px);z-index:10;display:flex;align-items:center;justify-content:center;padding:22px}.modalShade.hidden{display:none}.modal{width:540px;max-height:94vh;overflow:auto;background:linear-gradient(145deg,#f4efdc,#e3e8d5);color:#334735;padding:34px;border:1px solid #fffa;border-radius:20px;box-shadow:0 25px 80px #0008;position:relative}.modal .eyebrow{color:#557d50;letter-spacing:2px;font-size:11px}.modal h2{font-family:Georgia,"Malgun Gothic",serif;font-size:35px;letter-spacing:-1.3px;margin:10px 0 14px;line-height:1.25}.modal p{font-size:13px;line-height:1.8;color:#566b51;margin:0 0 16px}.modal .steps{display:grid;gap:8px;margin:18px 0 23px}.modal .step{display:flex;gap:11px;align-items:flex-start;font-size:12px;line-height:1.65;color:#54684c}.modal .step b{background:#d2dfbc;color:#4e6e40;min-width:23px;height:23px;border-radius:50%;text-align:center}.modalPrimary{width:100%;background:#345e42;color:#f8f2d9;padding:14px;border:0;border-radius:8px;font-size:15px;font-weight:700;box-shadow:0 4px #23492e}.modalPrimary:hover{background:#457850}.modalSecondary{margin-top:10px;border:1px solid #aabb9c;background:transparent;color:#51684a;width:100%;padding:11px;border-radius:7px}.modal .mini{font-size:10px;color:#77866a;margin-top:16px;text-align:center}.seal{font-size:44px;line-height:1;margin:6px 0;color:#718d48}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0}.stats div{padding:12px;background:#dfe6ce;border-radius:7px;text-align:center;font-size:11px;color:#6c7e5f}.stats b{display:block;color:#385b37;font-size:22px;margin-bottom:3px}.rewards{display:grid;grid-template-columns:1fr 1fr;gap:10px}.rewards button{background:#e7edd7;border:1px solid #a9b991;color:#3b623d;border-radius:8px;padding:17px 10px;line-height:1.6}.rewards button b{display:block;font-size:15px}.rewards button:hover{background:#d0e1b8;border-color:#64884e}.rewards small{display:block;color:#68805b;font-size:10px;margin-top:5px}.fatal{background:#34291f;color:#f3d2b5;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:30px;z-index:9}.fatal.hidden{display:none}.fatal button{margin-top:15px}.loadingDots{color:#c2d4b8}.selectedCoord{font-family:monospace;font-size:12px;letter-spacing:.5px}.stageIntro{font-size:12px;margin-top:8px}.ruleTable{border-collapse:collapse;width:100%;font-size:12px;margin:15px 0}.ruleTable td{padding:9px 5px;border-bottom:1px solid #bdc9af}.ruleTable td:first-child{font-weight:700;color:#426a44;width:90px}.mobileWarning{display:none}.motionBusy{color:#e4cb82}.scoreLabel{font-variant-numeric:tabular-nums}
+@media(min-width:951px) and (max-height:950px){.boardWrap{max-width:410px}.boardPanel{padding:15px 20px}.rule{min-height:30px;margin-bottom:5px}.boardMessage{min-height:30px;margin-top:8px}.sceneWrap{height:390px;aspect-ratio:auto}.numberpad button{font-size:21px;padding:4px 0}.log li{font-size:11px}.actionPreview{margin-top:7px}.inputHint{margin-top:6px}}
+@media(max-width:950px){header small{display:none}.main{padding:14px 14px 24px}.columns{gap:14px;grid-template-columns:minmax(375px,1fr) minmax(315px,.87fr)}.boardPanel{padding:16px 14px}.cell{font-size:23px}.sceneWrap{aspect-ratio:.98}.intent{padding:9px;gap:7px}.intent strong{font-size:11px}.sceneCaption{font-size:9px}.entryRow .utilities button{font-size:10px;padding:7px 5px}}
+@media(max-width:730px){header{padding:14px}h1{font-size:20px}.columns{display:flex;flex-direction:column}.boardPanel,.dungeonPanel{width:100%}.boardPanel{padding:15px}.boardWrap{max-width:460px}.dungeonPanel{display:grid;grid-template-columns:1fr 1fr;gap:10px}.vitals{grid-column:1/3}.sceneWrap{grid-column:1/3;width:100%;aspect-ratio:1.4;margin:0}.intent{grid-column:1/3;margin:0}.log{grid-column:1/3;padding-top:2px}.journey{gap:4px}.stage{padding:7px 3px;font-size:11px;gap:4px}.stage small{display:none}.stage b{width:20px;height:20px;font-size:10px}.modal{padding:25px}.modal h2{font-size:29px}.assumption{padding:0 15px 15px}.main{padding-top:10px}}
+
+body{word-break:keep-all}.sceneEvent{top:auto;bottom:42px;font-size:19px;padding:7px 10px;background:linear-gradient(90deg,transparent,#132619bb,transparent)}
+@media(min-width:951px) and (max-height:800px){header{padding-top:12px;padding-bottom:10px}.main{padding-top:10px}.boardWrap{max-width:340px}.boardPanel{padding:12px 18px}.cell{font-size:24px}.sceneWrap{height:310px}.sceneEvent{font-size:16px}.actionPreview{min-height:28px;padding:6px 10px}.numberpad button{font-size:19px}.numberpad button span{margin-top:2px}.rule{font-size:11px}.boardMessage{font-size:11px;min-height:29px}.entryRow{margin-top:8px}.log li{line-height:1.4;padding:2px 0}}
+</style></head><body>
+<header><div class="brand"><div class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><h1>스도쿠던전</h1><small>숲의 네 봉인</small></div><div class="topButtons"><button id="soundBtn" class="quiet" aria-label="소리 켜짐">소리 ON</button><button id="helpBtn" class="quiet">규칙</button><button id="restartBtn" class="quiet">다시 시작</button></div></header>
+<main class="main"><nav class="journey" aria-label="숲의 네 던전" id="journey"></nav><div class="columns"><section class="boardPanel"><div class="panelHeading"><h2 id="roomTitle">01. 이끼의 입구</h2><span class="tag" id="boardProgress">준비 중</span></div><p id="ruleText" class="rule">같은 행·열·3×3에 1부터 9까지 한 번씩.</p><div class="boardWrap"><div class="colLabels"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span><span>I</span></div><div class="boardBody"><div class="rowLabels"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></div><div id="board" class="board" role="grid" aria-label="9행 9열 스도쿠"></div></div></div><p id="boardMessage" class="boardMessage" role="status" aria-live="polite">빈칸을 선택하고 숫자의 명령을 확인하세요.</p><div id="numberpad" class="numberpad" aria-label="숫자 선택"></div><div class="actionPreview"><span id="selectionText">빈칸 선택</span><b id="actionText">숫자 → 행동 미리보기</b></div><div class="entryRow"><div class="utilities"><button id="memoBtn" aria-pressed="false">메모 M</button><button id="eraseBtn">지우기 ⌫</button></div><button id="confirmBtn" class="confirm" disabled>숫자 확정 ↵</button></div><div class="inputHint">클릭 또는 방향키로 칸 선택 · 1~9 초안 · Enter 확정</div></section>
+<section class="dungeonPanel" aria-label="3D 숲 던전"><div class="vitals"><div><div class="hpLabel">탐험자 체력 <b id="hpText">10 / 10</b></div><div class="hpbar"><span id="hpFill" style="width:100%"></span></div></div><div class="shield">보호막<b id="shieldText">0</b></div></div><div class="sceneWrap"><canvas id="dungeonCanvas" aria-label="3D 숲 격자와 탐험자 및 적"></canvas><div class="sceneCaption"><span class="area" id="sceneRoom">MOSS GATE</span><span class="area" id="sealCounter">숲의 인장 0 / 4</span></div><div id="sceneEvent" class="sceneEvent"></div><div class="sceneBottom"><span id="moveText">출구까지 3 걸음</span><span id="turnText">정답이 한 턴</span></div><div id="fatal" class="fatal hidden"><b>3D 숲을 불러오지 못했습니다.</b><p id="fatalDetail"></p><button id="reloadBtn" class="quiet">다시 불러오기</button></div></div><div id="intent" class="intent"><div class="enemySigil">◆</div><div><small>그늘짐승의 다음 행동</small><strong id="intentText">정답 2턴 뒤 · 공격 2</strong></div><div class="enemyHp">HP <b id="enemyHp">—</b></div></div><div class="log"><div class="logTitle"><span>숲의 기록</span><span class="scoreLabel" id="scoreText">0 점</span></div><ul id="eventLog"><li>숲의 네 봉인이 탐험자를 기다립니다.</li></ul></div></section></div></main>
+<div class="assumption">탁효진 · 대표 구간 시제품 — 숫자 명령표, 전투 수치, 인장·보상 및 종료 조건은 시험 가정입니다. 9×9 숫자판과 7×7 숲 표시 격자는 서로 다른 공간입니다.</div>
+<div id="modalShade" class="modalShade"><section id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="eyebrow">SUDOKU × FOREST DUNGEON</div><h2 id="modalTitle">숲의 네 봉인을<br>풀어라.</h2><p>정답은 길이 되고, 방패가 되고, 공격이 됩니다.<br>어떤 빈칸을 먼저 풀지, 눈앞의 위협을 보고 선택하세요.</p><div class="steps"><div class="step"><b>1</b><span>행·열·3×3에서 빈칸의 숫자를 추론합니다.</span></div><div class="step"><b>2</b><span>1~3은 이동, 4~6은 보호막, 7~9는 공격.<br>9는 추가 스킬, 가로줄 완성은 추가 타격입니다.</span></div><div class="step"><b>3</b><span>네 방의 숫자판·출구·적을 해결하면 탈출합니다.<br>오답은 함정 피해 3. 체력이 0이면 처음부터 재도전합니다.</span></div></div><button id="startBtn" class="modalPrimary" disabled>3D 숲 준비 중…</button><p class="mini">약 3~5분 · 마우스 + 숫자키/Enter · 시간 제한 없음</p></section></div>
+<!--OFFLINE_RUNTIME-->
+<!--EMBEDDED_ASSETS-->
+<script>
+// Generated offline; indices are zero-based. Prototype assumptions, not final student rules.
+window.DUNGEON_PUZZLES = [{"id":"standard","title":"숲의 입구 · 일반 스도쿠","ruleDescription":"각 가로 행·세로 열·3×3 구역에 1~9를 한 번씩 넣으세요.","givens":[1,7,5,2,0,3,0,6,0,3,4,8,9,1,6,2,5,7,9,2,6,4,7,5,8,3,1,7,5,3,8,6,2,0,9,0,2,8,1,5,4,9,0,0,6,4,6,9,7,3,1,5,2,8,6,3,0,1,2,8,9,4,0,8,0,4,3,5,7,0,1,2,5,0,2,0,9,4,7,0,3],"solution":[1,7,5,2,8,3,4,6,9,3,4,8,9,1,6,2,5,7,9,2,6,4,7,5,8,3,1,7,5,3,8,6,2,1,9,4,2,8,1,5,4,9,3,7,6,4,6,9,7,3,1,5,2,8,6,3,7,1,2,8,9,4,5,8,9,4,3,5,7,6,1,2,5,1,2,6,9,4,7,8,3],"chain":[],"forbiddenPair":[],"witness":"행·열·3×3 구역만으로 모든 빈칸을 추측 없이 해결할 수 있습니다. 숫자별 이동·방어·공격 선택을 연습합니다.","witnessData":null,"generation":{"generationAttempt":1},"assumption":"숫자 배정·변형 세부·빈칸 수는 프로토타입 가정이며 학생 최종 확정 규칙이 아닙니다."},{"id":"diagonal","title":"빛의 교차로 · 대각선","ruleDescription":"일반 규칙에 더해, 두 주대각선에도 각각 1~9가 한 번씩 들어갑니다.","givens":[6,0,9,0,8,3,0,5,4,1,8,5,4,0,7,3,2,6,7,4,3,5,2,6,1,9,8,5,3,4,2,6,9,8,7,1,8,9,0,3,7,4,2,6,5,2,6,7,8,1,5,9,4,3,9,1,6,7,0,8,0,3,2,4,5,0,9,3,2,6,1,7,3,0,2,0,0,1,0,0,0],"solution":[6,2,9,1,8,3,7,5,4,1,8,5,4,9,7,3,2,6,7,4,3,5,2,6,1,9,8,5,3,4,2,6,9,8,7,1,8,9,1,3,7,4,2,6,5,2,6,7,8,1,5,9,4,3,9,1,6,7,5,8,4,3,2,4,5,8,9,3,2,6,1,7,3,7,2,6,4,1,5,8,9],"chain":[],"forbiddenPair":[],"witness":"7행 7열은 일반 행·열·구역만 보면 [4, 5] 후보가 남지만, 이 던전 규칙을 적용하면 4만 가능합니다.","witnessData":{"index":60,"row":7,"column":7,"standardCandidates":[4,5],"variantCandidates":[4],"eliminatedCandidates":[5]},"generation":{"generationAttempt":1,"tradeIndices":[58,60,76,78]},"assumption":"숫자 배정·변형 세부·빈칸 수는 프로토타입 가정이며 학생 최종 확정 규칙이 아닙니다."},{"id":"adjacent","title":"가시 덩굴 · 인접 금지","ruleDescription":"일반 규칙에 더해, 숫자 2와 8은 상하좌우로 붙을 수 없습니다. 대각선으로 붙는 것은 허용됩니다.","givens":[0,4,1,8,3,5,6,2,9,2,0,0,0,6,9,0,4,0,9,8,6,2,1,0,0,7,3,3,0,7,4,5,2,0,0,0,6,2,5,9,8,1,7,3,4,4,1,8,3,7,6,2,0,5,1,7,9,6,4,8,3,5,2,5,6,4,1,2,3,9,8,7,8,3,2,5,9,7,4,1,0],"solution":[7,4,1,8,3,5,6,2,9,2,5,3,7,6,9,8,4,1,9,8,6,2,1,4,5,7,3,3,9,7,4,5,2,1,6,8,6,2,5,9,8,1,7,3,4,4,1,8,3,7,6,2,9,5,1,7,9,6,4,8,3,5,2,5,6,4,1,2,3,9,8,7,8,3,2,5,9,7,4,1,6],"chain":[],"forbiddenPair":[2,8],"witness":"4행 7열은 일반 행·열·구역만 보면 [1, 8] 후보가 남지만, 이 던전 규칙을 적용하면 1만 가능합니다.","witnessData":{"index":33,"row":4,"column":7,"standardCandidates":[1,8],"variantCandidates":[1],"eliminatedCandidates":[8]},"generation":{"generationAttempt":1,"tradeIndices":[15,17,33,35]},"assumption":"숫자 배정·변형 세부·빈칸 수는 프로토타입 가정이며 학생 최종 확정 규칙이 아닙니다."},{"id":"ordered","title":"봉인의 문 · 순서 입력","ruleDescription":"일반 규칙으로 풀되, 표시된 세 칸은 ①→②→③ 순서로 확정하세요. 다른 칸은 언제든 입력할 수 있습니다.","givens":[3,0,5,0,2,0,9,4,1,1,6,0,3,5,0,7,8,2,9,2,8,1,7,4,5,3,6,7,8,9,4,3,2,6,0,5,2,5,3,9,6,0,4,7,8,4,1,6,0,8,7,3,2,9,6,3,7,0,9,8,1,5,0,5,4,2,6,1,3,8,0,0,0,9,1,7,4,5,2,0,3],"solution":[3,7,5,8,2,6,9,4,1,1,6,4,3,5,9,7,8,2,9,2,8,1,7,4,5,3,6,7,8,9,4,3,2,6,1,5,2,5,3,9,6,1,4,7,8,4,1,6,5,8,7,3,2,9,6,3,7,2,9,8,1,5,4,5,4,2,6,1,3,8,9,7,8,9,1,7,4,5,2,6,3],"chain":[70,79,48],"forbiddenPair":[],"witness":"①→②→③ 순서로 확정하는 세 칸입니다. 나머지 빈칸은 이 세 칸을 채우기 전에도 추론하여 모두 풀 수 있습니다.","witnessData":{"chainIndices":[70,79,48],"chainValues":[9,6,5],"nonChainSolveTrace":[{"index":1,"row":1,"column":2,"value":7,"method":"naked-single"},{"index":3,"row":1,"column":4,"value":8,"method":"naked-single"},{"index":5,"row":1,"column":6,"value":6,"method":"naked-single"},{"index":11,"row":2,"column":3,"value":4,"method":"naked-single"},{"index":14,"row":2,"column":6,"value":9,"method":"naked-single"},{"index":34,"row":4,"column":8,"value":1,"method":"naked-single"},{"index":41,"row":5,"column":6,"value":1,"method":"naked-single"},{"index":57,"row":7,"column":4,"value":2,"method":"naked-single"},{"index":62,"row":7,"column":9,"value":4,"method":"naked-single"},{"index":71,"row":8,"column":9,"value":7,"method":"naked-single"},{"index":72,"row":9,"column":1,"value":8,"method":"naked-single"}],"firstLockedIndex":79},"generation":{"generationAttempt":1},"assumption":"숫자 배정·변형 세부·빈칸 수는 프로토타입 가정이며 학생 최종 확정 규칙이 아닙니다."}];
+
+</script>
+<script>
+/* Sudoku Dungeon: an offline Three.js view of the original task23 GLBs.
+ * The parent game owns rules, HP, turns and completion. This module only presents
+ * those events. A move uses the GLB's +Z root motion, then transfers it once to
+ * the placement group. setState({steps}) deliberately does not move a model.
+ */
+(function () {
+  'use strict';
+
+  const TILE = 1.5;
+  const START_Z = -1.5;
+  const MAX_MOVES = 3;
+  const ROLES = ['idle', 'step_one_tile', 'attack', 'defend', 'skill', 'trap_react'];
+  const STAGE_COLORS = [0x76dab4, 0x7cafef, 0xddac65, 0xba97e8];
+  let T, scene, camera, renderer, canvas, forest, clockTime = 0;
+  let ready = false, frameHandle = 0, previousTime = 0, epoch = 0;
+  let queue = Promise.resolve(), current = null, stageIndex = 0, moveCount = 0;
+  let lastAction = null, lastMove = null, error = null, resizeObserver = null;
+  const actors = {}, rings = [], particles = [], streaks = [], spikes = [];
+  const state = { hp: null, enemyHp: null, shield: 0, steps: 0, stage: 0, cleared: false };
+  let fireflies, aura, shield, fillLight, pathMarkers = [];
+
+  function materialList(root) {
+    const result = [];
+    root.traverse(function (object) {
+      if (!object.isMesh) return;
+      object.castShadow = true;
+      object.receiveShadow = true;
+      // Cloning changes in-memory instances only; embedded GLB bytes stay intact.
+      const original = Array.isArray(object.material) ? object.material : [object.material];
+      const cloned = original.map(function (material) {
+        const copy = material.clone();
+        if (copy.emissive) result.push({ material: copy, emissive: copy.emissive.clone() });
+        return copy;
+      });
+      object.material = Array.isArray(object.material) ? cloned : cloned[0];
+      object.frustumCulled = false;
+    });
+    return result;
+  }
+
+  function createActor(id, gltf, x, z) {
+    const placement = new T.Group();
+    placement.name = id + '_placement';
+    placement.position.set(x, 0, z);
+    placement.add(gltf.scene);
+    scene.add(placement);
+    let rootBone = null;
+    gltf.scene.traverse(function (object) {
+      if (object.isBone && object.name === 'root') rootBone = object;
+    });
+    if (!rootBone) throw new Error(id + ' GLB의 root 관절을 찾지 못했습니다.');
+    const mixer = new T.AnimationMixer(gltf.scene);
+    const actions = {};
+    ROLES.forEach(function (role) {
+      const clip = gltf.animations.find(function (candidate) { return candidate.name === id + '__' + role; });
+      if (!clip) throw new Error(id + ' GLB에 필요한 동작이 없습니다: ' + role);
+      actions[role] = mixer.clipAction(clip);
+    });
+    const actor = { id, placement, model: gltf.scene, mixer, actions, rootBone,
+      restRoot: rootBone.position.clone(), materials: materialList(gltf.scene),
+      flash: 0, flashColor: new T.Color(0xffffff), facing: 0, actionRole: 'idle' };
+    actors[id] = actor;
+    playIdle(actor);
+    return actor;
+  }
+
+  function playIdle(actor) {
+    actor.mixer.stopAllAction();
+    actor.rootBone.position.copy(actor.restRoot);
+    const action = actor.actions.idle;
+    action.reset().setLoop(T.LoopRepeat, Infinity).setEffectiveWeight(1).setEffectiveTimeScale(1).play();
+    actor.mixer.update(0);
+    actor.actionRole = 'idle';
+    actor.facing = 0;
+  }
+
+  function playOnce(actor, role, seconds) {
+    actor.mixer.stopAllAction();
+    actor.rootBone.position.copy(actor.restRoot);
+    const action = actor.actions[role];
+    action.reset().setLoop(T.LoopOnce, 1).setEffectiveWeight(1);
+    action.clampWhenFinished = true;
+    action.setEffectiveTimeScale(action.getClip().duration / seconds).play();
+    actor.mixer.update(0);
+    actor.actionRole = role;
+    return action;
+  }
+
+  function groundRing(color, radius, thickness) {
+    const mesh = new T.Mesh(new T.RingGeometry(radius - thickness, radius, 48),
+      new T.MeshBasicMaterial({ color, transparent: true, opacity: 0.7, side: T.DoubleSide, depthWrite: false }));
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.position.y = 0.025;
+    scene.add(mesh);
+    return mesh;
+  }
+
+  function pulse(position, color, scale, life) {
+    const mesh = groundRing(color, 0.48, 0.055);
+    mesh.position.x = position.x;
+    mesh.position.z = position.z;
+    rings.push({ mesh, time: 0, life: life || 0.7, scale: scale || 2.4 });
+  }
+
+  function burst(position, color, count) {
+    const n = count || 22, data = new Float32Array(n * 3), velocities = [];
+    for (let i = 0; i < n; i++) {
+      data[i * 3] = position.x; data[i * 3 + 1] = position.y; data[i * 3 + 2] = position.z;
+      const angle = i * 2.39996;
+      velocities.push(new T.Vector3(Math.cos(angle) * (0.45 + (i % 4) * 0.2), 0.45 + (i % 5) * 0.22, Math.sin(angle) * (0.45 + (i % 4) * 0.2)));
+    }
+    const geometry = new T.BufferGeometry();
+    geometry.setAttribute('position', new T.BufferAttribute(data, 3));
+    const points = new T.Points(geometry, new T.PointsMaterial({ color, size: 0.075, transparent: true, opacity: 1, depthWrite: false }));
+    points.frustumCulled = false;
+    scene.add(points);
+    particles.push({ mesh: points, velocities, time: 0, life: 0.75 });
+  }
+
+  function streak(from, to, color) {
+    const geometry = new T.BufferGeometry().setFromPoints([from, to]);
+    const line = new T.Line(geometry, new T.LineBasicMaterial({ color, transparent: true, opacity: 0.95, depthWrite: false }));
+    scene.add(line);
+    streaks.push({ mesh: line, time: 0, life: 0.28 });
+  }
+
+  function trapSpikes(position) {
+    const group = new T.Group();
+    const material = new T.MeshStandardMaterial({ color: 0xbca691, roughness: 0.8, emissive: 0x652b21, emissiveIntensity: 0.3 });
+    const geometry = new T.ConeGeometry(0.09, 0.38, 5);
+    for (let i = 0; i < 6; i++) {
+      const spike = new T.Mesh(geometry, material);
+      const angle = i * Math.PI / 3;
+      spike.position.set(Math.cos(angle) * 0.49, 0.18, Math.sin(angle) * 0.49);
+      group.add(spike);
+    }
+    group.position.set(position.x, 0.01, position.z);
+    scene.add(group);
+    spikes.push({ mesh: group, geometry, material, time: 0, life: 0.8 });
+  }
+
+  function point(actor, height) {
+    return actor.placement.position.clone().add(new T.Vector3(0, height || 0.75, 0));
+  }
+
+  function flash(actor, color) { actor.flash = 1; actor.flashColor.setHex(color); }
+
+  function cleanTransient() {
+    [rings, particles, streaks].forEach(function (list) {
+      list.forEach(function (effect) { scene.remove(effect.mesh); effect.mesh.geometry.dispose(); effect.mesh.material.dispose(); });
+      list.length = 0;
+    });
+    spikes.forEach(function (effect) { scene.remove(effect.mesh); effect.geometry.dispose(); effect.material.dispose(); });
+    spikes.length = 0;
+  }
+
+  function cancelCurrent(reason) {
+    if (!current) return;
+    const job = current;
+    current = null;
+    job.resolve({ type: job.type, cancelled: true, reason: reason || 'reset' });
+  }
+
+  function updateMarkers() {
+    const color = STAGE_COLORS[stageIndex % STAGE_COLORS.length];
+    pathMarkers.forEach(function (marker, index) {
+      marker.material.color.setHex(color);
+      marker.material.opacity = state.cleared ? 0.75 : index < moveCount ? 0.13 : index === moveCount ? 0.45 : 0.12;
+    });
+  }
+
+  function reset(index) {
+    stageIndex = Math.max(0, Number(index) || 0);
+    epoch++; queue = Promise.resolve(); cancelCurrent('reset'); moveCount = 0;
+    state.stage = stageIndex; state.steps = 0; state.shield = 0; state.cleared = false;
+    lastAction = null; lastMove = null;
+    if (!ready) return;
+    cleanTransient();
+    actors.explorer.placement.position.set(0, 0, START_Z);
+    actors.enemy.placement.position.set(TILE, 0, START_Z);
+    Object.values(actors).forEach(function (actor) {
+      actor.placement.visible = true; actor.placement.rotation.set(0, 0, 0); actor.flash = 0; playIdle(actor);
+    });
+    aura.material.color.setHex(STAGE_COLORS[stageIndex % STAGE_COLORS.length]);
+    fillLight.color.setHex(STAGE_COLORS[stageIndex % STAGE_COLORS.length]);
+    updateMarkers();
+    scene.updateMatrixWorld(true);
+  }
+
+  function setState(next) {
+    if (!next || typeof next !== 'object') return;
+    ['hp', 'enemyHp', 'shield', 'steps', 'stage', 'cleared'].forEach(function (key) {
+      if (Object.prototype.hasOwnProperty.call(next, key)) state[key] = next[key];
+    });
+    if (ready) updateMarkers();
+  }
+
+  function face(actor, target) {
+    const delta = target.placement.position.clone().sub(actor.placement.position);
+    actor.facing = Math.atan2(delta.x, delta.z);
+  }
+
+  function runAction(type, options) {
+    if (!ready) return Promise.reject(new Error('3D 장면이 아직 준비되지 않았습니다.'));
+    if (error) return Promise.reject(new Error(error));
+    const hero = actors.explorer, enemy = actors.enemy;
+    const actor = options.actor === 'enemy' ? enemy : hero;
+    const other = actor === hero ? enemy : hero;
+    const durations = { move: 0.82, attack: 0.62, defend: 0.6, skill: 0.86, trap: 0.72, enemyAttack: 0.68, clear: 0.82 };
+    if (type === 'idle') { Object.values(actors).forEach(playIdle); return Promise.resolve({ type }); }
+    if (!Object.prototype.hasOwnProperty.call(durations, type)) return Promise.reject(new Error('알 수 없는 장면 행동: ' + type));
+    if (type === 'move' && moveCount >= MAX_MOVES) {
+      pulse(hero.placement.position, STAGE_COLORS[stageIndex % 4], 1.6, 0.5);
+      return Promise.resolve({ type, moved: false, reason: 'three-tile-path-end', steps: moveCount });
+    }
+    const duration = Number.isFinite(options.duration) ? Math.max(0.35, Math.min(2, options.duration)) : durations[type];
+    lastAction = type;
+    return new Promise(function (resolve, reject) {
+      const job = { type, options, time: 0, duration, resolve, reject, hit: false, moveActors: [] };
+      current = job;
+      if (type === 'move') {
+        // Both remain on neighbouring grid lanes by default. The parent may pass
+        // {enemyFollow:false} to keep the enemy on its current tile.
+        const moving = options.enemyFollow === false || !enemy.placement.visible ? [hero] : [hero, enemy];
+        moving.forEach(function (movingActor) {
+          movingActor.placement.rotation.y = 0; movingActor.facing = 0;
+          playOnce(movingActor, 'step_one_tile', duration);
+          scene.updateMatrixWorld(true);
+          job.moveActors.push({ actor: movingActor, start: movingActor.rootBone.getWorldPosition(new T.Vector3()) });
+        });
+      } else if (type === 'attack') {
+        face(actor, other); playOnce(actor, 'attack', duration);
+      } else if (type === 'defend') {
+        face(actor, other); playOnce(actor, 'defend', duration);
+        pulse(actor.placement.position, 0x83dcfa, 1.8, duration);
+      } else if (type === 'skill') {
+        face(actor, other); playOnce(actor, 'skill', duration);
+        pulse(actor.placement.position, 0xffd776, 3.4, duration);
+      } else if (type === 'trap') {
+        playOnce(actor, 'trap_react', duration); trapSpikes(actor.placement.position);
+        pulse(actor.placement.position, 0xf77d5e, 2.3, duration);
+      } else if (type === 'enemyAttack') {
+        face(enemy, hero); playOnce(enemy, 'attack', duration);
+      } else if (type === 'clear') {
+        playOnce(hero, 'skill', duration);
+        pulse(hero.placement.position, STAGE_COLORS[stageIndex % 4], 5.5, duration);
+      }
+    });
+  }
+
+  function action(type, options) {
+    const requestEpoch = epoch;
+    const promise = queue.then(function () {
+      if (requestEpoch !== epoch) return { type, cancelled: true, reason: 'reset' };
+      return runAction(type, options || {});
+    });
+    queue = promise.catch(function () {});
+    return promise;
+  }
+
+  function actionHit(job) {
+    const hero = actors.explorer, enemy = actors.enemy;
+    const actor = job.options.actor === 'enemy' ? enemy : hero;
+    const other = actor === hero ? enemy : hero;
+    if (job.type === 'attack' || job.type === 'skill') {
+      const color = job.type === 'skill' ? 0xffd776 : 0xffce8b;
+      streak(point(actor), point(other), color); burst(point(other), color); flash(other, color);
+      playOnce(other, 'trap_react', Math.max(0.3, job.duration * 0.57));
+    } else if (job.type === 'trap') {
+      burst(point(actor, 0.2), 0xf67958, 18); flash(actor, 0xe3533c);
+    } else if (job.type === 'enemyAttack') {
+      const defended = Number(state.shield) > 0 || job.options.blocked === true;
+      streak(point(enemy), point(hero), defended ? 0x92e6ff : 0xf58366);
+      burst(point(hero), defended ? 0x92e6ff : 0xf58366);
+      playOnce(hero, defended ? 'defend' : 'trap_react', Math.max(0.3, job.duration * 0.57));
+      flash(hero, defended ? 0x92e6ff : 0xd76349);
+    } else if (job.type === 'clear') {
+      burst(point(hero, 1.1), STAGE_COLORS[stageIndex % 4], 34);
+    }
+  }
+
+  function finishAction(job) {
+    const result = { type: job.type, cancelled: false };
+    if (job.type === 'move') {
+      scene.updateMatrixWorld(true);
+      const records = [];
+      job.moveActors.forEach(function (entry) {
+        const actor = entry.actor;
+        const end = actor.rootBone.getWorldPosition(new T.Vector3());
+        const delta = end.sub(entry.start);
+        records.push({ actor: actor.id, transferredWorldOffset: delta.toArray() });
+        // Stop/reset the root's animated translation before transferring it to the
+        // placement group. There is no per-frame placement movement to double up.
+        playIdle(actor);
+        actor.placement.position.add(delta);
+      });
+      moveCount++;
+      result.moved = true; result.steps = moveCount;
+      lastMove = { records, tilePitch: TILE, step: moveCount };
+      updateMarkers();
+      pulse(actors.explorer.placement.position, STAGE_COLORS[stageIndex % 4], 1.6, 0.45);
+    } else {
+      Object.values(actors).forEach(playIdle);
+    }
+    if (Number(state.enemyHp) <= 0) actors.enemy.placement.visible = false;
+    if (job.type === 'clear') {
+      state.cleared = true;
+      actors.enemy.placement.visible = false;
+      updateMarkers();
+    }
+    current = null;
+    job.resolve(result);
+  }
+
+  function updateEffects(dt) {
+    [rings, particles, streaks].forEach(function (list) {
+      for (let i = list.length - 1; i >= 0; i--) {
+        const effect = list[i]; effect.time += dt;
+        const progress = Math.min(1, effect.time / effect.life);
+        effect.mesh.material.opacity = 1 - progress;
+        if (list === rings) {
+          const scale = 0.6 + effect.scale * progress;
+          effect.mesh.scale.set(scale, scale, scale);
+        } else if (list === particles) {
+          const attribute = effect.mesh.geometry.attributes.position;
+          for (let n = 0; n < effect.velocities.length; n++) {
+            const velocity = effect.velocities[n]; velocity.y -= dt * 1.8;
+            attribute.array[n * 3] += velocity.x * dt;
+            attribute.array[n * 3 + 1] += velocity.y * dt;
+            attribute.array[n * 3 + 2] += velocity.z * dt;
+          }
+          attribute.needsUpdate = true;
+        }
+        if (progress >= 1) { scene.remove(effect.mesh); effect.mesh.geometry.dispose(); effect.mesh.material.dispose(); list.splice(i, 1); }
+      }
+    });
+    for (let i = spikes.length - 1; i >= 0; i--) {
+      const effect = spikes[i]; effect.time += dt;
+      effect.mesh.scale.y = Math.max(0.01, Math.sin(Math.min(1, effect.time / effect.life) * Math.PI));
+      if (effect.time >= effect.life) { scene.remove(effect.mesh); effect.geometry.dispose(); effect.material.dispose(); spikes.splice(i, 1); }
+    }
+  }
+
+  function frame(time) {
+    frameHandle = requestAnimationFrame(frame);
+    if (!ready || error) return;
+    const dt = Math.min(0.1, Math.max(0, (time - (previousTime || time)) / 1000));
+    previousTime = time; clockTime += dt;
+    Object.values(actors).forEach(function (actor) {
+      actor.mixer.update(dt);
+      if (!current || current.type !== 'move') {
+        const difference = Math.atan2(Math.sin(actor.facing - actor.placement.rotation.y), Math.cos(actor.facing - actor.placement.rotation.y));
+        actor.placement.rotation.y += difference * Math.min(1, dt * 16);
+      }
+      actor.flash = Math.max(0, actor.flash - dt * 2.8);
+      actor.materials.forEach(function (item) { item.material.emissive.copy(item.emissive).lerp(actor.flashColor, actor.flash * 0.55); });
+    });
+    if (current) {
+      current.time += dt;
+      if (!current.hit && current.time >= current.duration * 0.42) { current.hit = true; actionHit(current); }
+      if (current && current.time >= current.duration + 0.025) finishAction(current);
+    }
+    aura.position.x = actors.explorer.placement.position.x;
+    aura.position.z = actors.explorer.placement.position.z;
+    if (current && current.type === 'move') {
+      const root = actors.explorer.rootBone.getWorldPosition(new T.Vector3());
+      aura.position.x = root.x; aura.position.z = root.z;
+    }
+    aura.material.opacity = 0.34 + Math.sin(clockTime * 2) * 0.09;
+    shield.visible = Boolean(Number(state.shield) > 0 || (current && (current.type === 'defend' || (current.type === 'enemyAttack' && current.options.blocked))));
+    shield.position.copy(actors.explorer.placement.position).add(new T.Vector3(0, 0.75, 0));
+    shield.rotation.y = clockTime * 0.3;
+    fireflies.rotation.y = Math.sin(clockTime * 0.09) * 0.14;
+    fireflies.position.y = Math.sin(clockTime * 0.6) * 0.08;
+    updateEffects(dt);
+    renderer.render(scene, camera);
+  }
+
+  function resize() {
+    if (!renderer || !canvas) return;
+    const width = Math.max(1, canvas.clientWidth || canvas.parentElement?.clientWidth || 480);
+    const height = Math.max(1, canvas.clientHeight || 480);
+    renderer.setSize(width, height, false);
+    const aspect = width / height;
+    const viewHeight = aspect < 0.82 ? 8.9 : 8.0;
+    camera.left = -viewHeight * aspect / 2; camera.right = viewHeight * aspect / 2;
+    camera.top = viewHeight / 2; camera.bottom = -viewHeight / 2;
+    camera.updateProjectionMatrix();
+  }
+
+  async function init(targetCanvas) {
+    if (ready) { if (canvas !== targetCanvas) throw new Error('이미 다른 canvas에 장면이 초기화되어 있습니다.'); return getDebug(); }
+    if (!window.Game3D || !window.__ASSETS__) throw new Error('내장 3D 런타임 또는 GLB 자산이 없습니다.');
+    if (!targetCanvas || targetCanvas.tagName !== 'CANVAS') throw new Error('3D canvas가 필요합니다.');
+    T = window.Game3D.THREE; canvas = targetCanvas;
+    try {
+      renderer = new T.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.outputColorSpace = T.SRGBColorSpace;
+      renderer.toneMapping = T.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.22;
+      renderer.shadowMap.enabled = true; renderer.shadowMap.type = T.PCFSoftShadowMap;
+      scene = new T.Scene(); scene.background = new T.Color(0x17372e);
+      scene.fog = new T.Fog(0x17372e, 19, 32);
+      camera = new T.OrthographicCamera(-4, 4, 4, -4, 0.1, 60);
+      camera.position.set(5.6, 11.3, 11.8); camera.lookAt(0.5, 0.28, 0.7);
+      scene.add(new T.HemisphereLight(0xcde9df, 0x4a3824, 2.5));
+      const sun = new T.DirectionalLight(0xffe9c5, 3.0);
+      sun.position.set(-4, 11, 6); sun.castShadow = true;
+      sun.shadow.mapSize.set(1024, 1024); sun.shadow.camera.left = -7; sun.shadow.camera.right = 7;
+      sun.shadow.camera.top = 7; sun.shadow.camera.bottom = -7; sun.shadow.normalBias = 0.035;
+      scene.add(sun);
+      fillLight = new T.PointLight(STAGE_COLORS[0], 5, 11, 1.3); fillLight.position.set(0, 4, -1); scene.add(fillLight);
+      const loaded = await Promise.all(['explorer', 'enemy', 'forest'].map(function (key) { return window.Game3D.loadEmbeddedGLB(window.__ASSETS__, key); }));
+      forest = loaded[2].scene; forest.name = 'EmbeddedForestGrid';
+      forest.traverse(function (object) { if (object.isMesh) { object.receiveShadow = true; object.castShadow = true; } });
+      scene.add(forest);
+      createActor('explorer', loaded[0], 0, START_Z);
+      createActor('enemy', loaded[1], TILE, START_Z);
+      aura = groundRing(STAGE_COLORS[0], 0.59, 0.035);
+      pathMarkers = [0, 1, 2].map(function (index) { const ring = groundRing(STAGE_COLORS[0], 0.22, 0.018); ring.position.set(0, 0.025, START_Z + (index + 1) * TILE); return ring; });
+      shield = new T.Mesh(new T.IcosahedronGeometry(1, 1), new T.MeshBasicMaterial({ color: 0x95e4ef, wireframe: true, transparent: true, opacity: 0.28, depthWrite: false }));
+      shield.scale.set(0.68, 0.88, 0.59); shield.visible = false; scene.add(shield);
+      const positions = new Float32Array(36 * 3);
+      for (let i = 0; i < 36; i++) { positions[i * 3] = Math.sin(i * 2.39996) * (3.4 + (i % 4) * 0.4); positions[i * 3 + 1] = 0.4 + (i % 7) * 0.32; positions[i * 3 + 2] = Math.cos(i * 2.39996) * (3.2 + (i % 5) * 0.34); }
+      const geometry = new T.BufferGeometry(); geometry.setAttribute('position', new T.BufferAttribute(positions, 3));
+      fireflies = new T.Points(geometry, new T.PointsMaterial({ color: 0xe6de9b, size: 0.045, transparent: true, opacity: 0.66, depthWrite: false })); scene.add(fireflies);
+      canvas.addEventListener('webglcontextlost', function (event) {
+        event.preventDefault(); error = 'WebGL 화면 연결이 끊겼습니다. 페이지를 다시 열어 재시도해 주세요.';
+        cancelCurrent('webgl-context-lost');
+        canvas.dispatchEvent(new CustomEvent('dungeonsceneerror', { detail: error }));
+      });
+      ready = true; reset(stageIndex); resize();
+      if (window.ResizeObserver) { resizeObserver = new ResizeObserver(resize); resizeObserver.observe(canvas); }
+      window.addEventListener('resize', resize);
+      frameHandle = requestAnimationFrame(frame);
+      return getDebug();
+    } catch (failure) {
+      error = '3D 숲 장면을 열지 못했습니다: ' + (failure && failure.message ? failure.message : String(failure));
+      if (renderer) renderer.dispose();
+      throw new Error(error);
+    }
+  }
+
+  function getDebug() {
+    return { ready, error, busy: Boolean(current), stageIndex, moveCount, maxMoves: MAX_MOVES, tilePitch: TILE,
+      state: Object.assign({}, state), lastAction, lastMove, activeType: current ? current.type : null,
+      sourceKeys: ['explorer', 'enemy', 'forest'], coordinateSystem: 'glTF Y-up, one tile along +Z',
+      rootMotionPolicy: 'Animated root displacement transferred once after move; setState never changes placement',
+      actors: Object.fromEntries(Object.entries(actors).map(function (entry) {
+        const actor = entry[1];
+        return [entry[0], { position: actor.placement.position.toArray(), rootPosition: actor.rootBone.position.toArray(), activeRole: actor.actionRole,
+          clipNames: Object.values(actor.actions).map(function (clipAction) { return clipAction.getClip().name; }), visible: actor.placement.visible }];
+      })), renderer: renderer ? { width: renderer.domElement.width, height: renderer.domElement.height, calls: renderer.info.render.calls } : null };
+  }
+
+  window.DungeonScene = { init, reset, action, setState, resize, getDebug };
+})();
+
+</script>
+<script>
+/* Sudoku Dungeon: deterministic turn-based rules. All state changes go through real inputs. */
+(()=>{'use strict';
+const $=id=>document.getElementById(id), P=window.DUNGEON_PUZZLES;
+const names=['이끼의 입구','거울의 숲','금기의 뿌리','기억의 회랑'];
+const shortNames=['일반','대각선','인접 금지','순서 입력'];
+const english=['MOSS GATE','MIRROR WOODS','FORBIDDEN ROOTS','MEMORY HALL'];
+const commands=n=>n<=3?'이동':n<=6?'방어':n===9?'공격 + 스킬':'공격';
+const coord=i=>'ABCDEFGHI'[i%9]+(Math.floor(i/9)+1);
+let state,ready=false,sound=true,audio=null,eventTimer=null,helpReturn=null;
+const cells=[], startedAt=performance.now();
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function fresh(){return{phase:'start',room:0,hp:10,maxHp:10,shield:0,enemyHp:0,enemyMax:0,charge:2,attackCount:0,steps:0,requiredSteps:3,board:[],notes:{},selected:-1,draft:0,memo:false,busy:false,turns:0,roomTurns:0,errors:0,score:0,seals:0,history:[],logs:[],rowRewards:[],skillCount:0,rowAttackCount:0,moveCount:0,defendCount:0,attackTotal:0,epoch:0,playStart:0,finishedAt:0,roomStarts:[],stageDurations:[],fatal:null};}
+state=fresh();
+function emit(type,detail={}){state.history.push({type,room:state.room,turn:state.turns,at:Math.round(performance.now()-startedAt),...detail});}
+function log(text){state.logs.unshift(text);state.logs=state.logs.slice(0,5);}
+function tone(type){if(!sound)return;try{if(!audio)audio=new(window.AudioContext||window.webkitAudioContext)();if(audio.state==='suspended')audio.resume();const patterns={correct:[440,660],move:[330,440],defend:[523,783],attack:[180,110],skill:[440,660,880],trap:[140,95],win:[523,659,783,1046],click:[390]};(patterns[type]||patterns.correct).forEach((f,i)=>{const o=audio.createOscillator(),g=audio.createGain();o.type=type==='trap'?'sawtooth':'sine';o.frequency.value=f;g.gain.setValueAtTime(.0001,audio.currentTime+i*.085);g.gain.exponentialRampToValueAtTime(.065,audio.currentTime+i*.085+.008);g.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+i*.085+.16);o.connect(g);g.connect(audio.destination);o.start(audio.currentTime+i*.085);o.stop(audio.currentTime+i*.085+.19);});}catch(e){/* Optional sound never blocks a turn. */}}
+function message(text,bad=false){$('boardMessage').textContent=text;$('boardMessage').classList.toggle('bad',bad);}
+function popup(text,type=''){clearTimeout(eventTimer);$('sceneEvent').className='sceneEvent show '+type;$('sceneEvent').textContent=text;eventTimer=setTimeout(()=>$('sceneEvent').classList.remove('show'),950);}
+function showModal(html){$('modal').innerHTML=html;$('modalShade').classList.remove('hidden');}
+function hideModal(){$('modalShade').classList.add('hidden');}
+function modalHeading(kicker,title){return`<div class="eyebrow">${kicker}</div><h2 id="modalTitle">${title}</h2>`;}
+function lockInfo(index){const chain=P[state.room].chain||[],pos=chain.indexOf(index);if(pos<0)return null;const first=chain.findIndex(i=>state.board[i]===0);if(first>=0&&pos>first)return{position:pos+1,required:chain[first],requiredPosition:first+1};return null;}
+function editable(){return state.phase==='playing'&&!state.busy&&state.selected>=0&&!state.board[state.selected]&&!lockInfo(state.selected);}
+function conflicts(index,value){const row=Math.floor(index/9),col=index%9,res=[];const add=(test,label)=>{if(test&&!res.includes(label))res.push(label);};
+ for(let i=0;i<81;i++){if(i===index||state.board[i]!==value)continue;const r=Math.floor(i/9),c=i%9;add(r===row,'같은 행');add(c===col,'같은 열');add(Math.floor(r/3)===Math.floor(row/3)&&Math.floor(c/3)===Math.floor(col/3),'같은 3×3');if(P[state.room].id==='diagonal'){add(row===col&&r===c,'대각선');add(row+col===8&&r+c===8,'대각선');}}
+ if(P[state.room].id==='adjacent'){const pair=P[state.room].forbiddenPair;for(const [dr,dc]of[[1,0],[-1,0],[0,1],[0,-1]]){const r=row+dr,c=col+dc;if(r<0||r>8||c<0||c>8)continue;const v=state.board[r*9+c];if((value===pair[0]&&v===pair[1])||(value===pair[1]&&v===pair[0]))add(true,'인접 금지');}}
+ return res;
+}
+function renderBoard(){const p=P[state.room],sel=state.selected,sv=state.draft||(sel>=0?state.board[sel]:0);cells.forEach((button,i)=>{const r=Math.floor(i/9),c=i%9,lock=lockInfo(i);let cls=['cell'];if(c===2||c===5)cls.push('boxRight');if(r===2||r===5)cls.push('boxBottom');if(p.givens[i])cls.push('given');else if(state.board[i])cls.push('solved');else cls.push('empty');if(sel>=0&&(Math.floor(sel/9)===r||sel%9===c||Math.floor(Math.floor(sel/9)/3)===Math.floor(r/3)&&Math.floor((sel%9)/3)===Math.floor(c/3)))cls.push('peer');if(sv&&state.board[i]===sv)cls.push('same');if(p.id==='diagonal'&&(r===c||r+c===8))cls.push('diag');if(lock)cls.push('locked');if(i===sel)cls.push('selected');if(i===sel&&state.draft)cls.push('draft');if(i===sel&&state.errorIndex===i)cls.push('error');button.className=cls.join(' ');let html='';const cp=(p.chain||[]).indexOf(i);if(cp>=0)html+=`<span class="chainBadge">${'①②③④⑤'[cp]}</span>`;
+ if(state.board[i])html+=state.board[i];else if(lock)html+='<span class="lock">◇</span>';else if(i===sel&&state.draft)html+=state.draft;else if(state.notes[i]?.length){html+='<span class="notes">';for(let n=1;n<=9;n++)html+=`<span>${state.notes[i].includes(n)?n:''}</span>`;html+='</span>';}
+ button.innerHTML=html;button.setAttribute('aria-label',`${coord(i)} ${state.board[i]?'숫자 '+state.board[i]:lock?'잠김':'빈칸'}`);button.setAttribute('aria-selected',String(i===sel));button.dataset.value=state.board[i];button.dataset.locked=lock?'true':'false';button.dataset.given=p.givens[i]?'true':'false';});
+ $('boardProgress').textContent=`빈칸 ${state.board.filter(v=>v===0).length} / ${p.givens.filter(v=>v===0).length}`;
+ $('helpBtn').disabled=state.busy||state.phase!=='playing';$('restartBtn').disabled=state.busy||state.phase!=='playing';$('confirmBtn').disabled=!(editable()&&state.draft&&!state.memo);$('confirmBtn').textContent=state.busy?'숲이 응답하는 중…':'숫자 확정 ↵';
+ $('memoBtn').classList.toggle('on',state.memo);$('memoBtn').setAttribute('aria-pressed',String(state.memo));$('selectionText').textContent=sel<0?'빈칸 선택':`${coord(sel)}${state.memo?' · 메모 모드':state.draft?' = '+state.draft+' · 초안':''}`;
+ $('actionText').textContent=state.draft?`${commands(state.draft)}${state.draft<=3?' · 한 칸':state.draft<=6?' · 보호막 +3':state.draft===9?' · 피해 5 + 위협 지연':' · 피해 3'}`:state.memo?'메모는 턴을 쓰지 않습니다':'숫자 → 행동 미리보기';
+ document.querySelectorAll('#numberpad button').forEach(b=>b.classList.toggle('active',+b.dataset.number===state.draft));
+}
+function updateHUD(){const p=P[state.room];$('roomTitle').textContent=`0${state.room+1}. ${names[state.room]}`;$('ruleText').textContent=p.ruleDescription;$('sceneRoom').textContent=english[state.room];$('hpText').textContent=`${state.hp} / ${state.maxHp}`;$('hpFill').style.width=100*Math.max(0,state.hp)/state.maxHp+'%';$('shieldText').textContent=state.shield;$('enemyHp').textContent=state.enemyHp;$('intentText').textContent=state.enemyHp<=0?'길을 지키던 그늘이 사라졌습니다':`정답 ${state.charge}턴 뒤 · 공격 ${2+(state.attackCount%3===2?1:0)}`;$('intent').classList.toggle('danger',state.enemyHp>0&&state.charge===1);$('intent').classList.toggle('defeated',state.enemyHp<=0);$('moveText').textContent=state.steps>=state.requiredSteps?'출구 도착 · 남은 봉인을 해제하세요':`출구까지 ${state.requiredSteps-state.steps} 걸음`;$('turnText').textContent=state.busy?'행동 처리 중':`현재 ${state.roomTurns}턴 · 빈칸이 명령`;$('sealCounter').textContent=`숲의 인장 ${state.seals} / 4`;$('scoreText').textContent=state.score+' 점';$('eventLog').innerHTML=state.logs.map(t=>`<li>${t}</li>`).join('');$('journey').innerHTML=names.map((n,i)=>`<div class="stage ${i===state.room?'current':i<state.room?'done':''}"><b>${i<state.room?'✓':i+1}</b><span>${shortNames[i]}</span><small>${i<state.room?'해제':i===state.room?'탐험 중':'봉인'}</small></div>`).join('');
+ window.DungeonScene.setState({hp:state.hp,enemyHp:state.enemyHp,shield:state.shield,steps:state.steps,stage:state.room,cleared:state.seals>state.room});}
+function render(){renderBoard();updateHUD();}
+function select(i){if(state.phase!=='playing'||state.busy)return;state.selected=i;state.draft=0;state.errorIndex=-1;const lock=lockInfo(i);if(lock){message(`${coord(i)}는 잠겨 있습니다. 먼저 ${'①②③④⑤'[lock.requiredPosition-1]} ${coord(lock.required)}를 풀어주세요.`);emit('locked_selection',{index:i,required:lock.required});}else if(state.board[i])message(P[state.room].givens[i]?`${coord(i)}는 처음부터 주어진 숫자입니다.`:`${coord(i)}는 이미 확정했습니다. 명령은 다시 지급되지 않습니다.`);else message(`${coord(i)} · 행·열·3×3${P[state.room].id==='diagonal'?'과 두 대각선':P[state.room].id==='adjacent'?'과 2·8 이웃 관계':''}을 살펴보세요.`);renderBoard();}
+function choose(n){if(!editable()){if(state.phase==='playing'&&!state.busy)message(state.selected<0?'먼저 빈칸을 선택하세요.':lockInfo(state.selected)?`먼저 ${coord(lockInfo(state.selected).required)}의 선행 칸을 확정하세요. 순서 잠금은 함정 피해를 주지 않습니다.`:'선택한 칸에 입력할 수 없습니다.');return;}state.errorIndex=-1;if(state.memo){const a=state.notes[state.selected]||[];state.notes[state.selected]=a.includes(n)?a.filter(v=>v!==n):a.concat(n).sort();state.draft=0;emit('note',{index:state.selected,value:n});message(`${coord(state.selected)}에 메모했습니다. 턴과 보상은 변하지 않습니다.`);}else{state.draft=n;message(`${n} → ${commands(n)}. 추론한 숫자가 맞으면 Enter로 확정하세요.`);}renderBoard();tone('click');}
+function memo(){if(state.phase!=='playing'||state.busy)return;state.memo=!state.memo;state.draft=0;message(state.memo?'메모 모드 · 후보 숫자를 적어두세요. M을 다시 누르면 입력 모드입니다.':'입력 모드 · 숫자를 고른 뒤 Enter로 확정합니다.');renderBoard();}
+function erase(){if(!editable())return;delete state.notes[state.selected];state.draft=0;state.errorIndex=-1;message(`${coord(state.selected)}의 초안과 메모를 지웠습니다.`);emit('erase',{index:state.selected});renderBoard();}
+function prepareRoom(){const p=P[state.room];state.board=p.givens.slice();state.notes={};state.selected=-1;state.draft=0;state.memo=false;state.steps=0;state.requiredSteps=p.givens.filter((v,i)=>!v&&p.solution[i]<=3).length;state.roomTurns=0;state.rowRewards=Array.from({length:9},(_,r)=>p.givens.slice(r*9,r*9+9).every(Boolean));const atk=p.givens.filter((v,i)=>!v&&p.solution[i]>=7).length,skills=p.givens.filter((v,i)=>!v&&p.solution[i]===9).length,rows=state.rowRewards.filter(v=>!v).length;state.enemyMax=Math.max(10,atk*3+skills*2+rows-4);state.enemyHp=state.enemyMax;state.charge=2;state.attackCount=0;state.errorIndex=-1;state.roomStarts.push(performance.now());window.DungeonScene.reset(state.room);log(`${names[state.room]}에 들어왔습니다. ${shortNames[state.room]} 규칙을 살펴보세요.`);message('빈칸을 선택하세요. 그늘짐승의 예고를 보고 풀이 순서를 정하세요.');render();emit('room_start',{id:p.id,enemyHp:state.enemyHp,requiredSteps:state.requiredSteps});}
+function startGame(){if(!ready)return;const epoch=state.epoch+1;state=fresh();state.epoch=epoch;state.phase='playing';state.playStart=performance.now();hideModal();tone('correct');prepareRoom();emit('start');}
+async function act(type,options={}){await window.DungeonScene.action(type,options);}
+async function submit(){if(!editable()||!state.draft||state.memo)return;const index=state.selected,n=state.draft,epoch=state.epoch;state.busy=true;renderBoard();
+ try{
+ const reasons=conflicts(index,n);
+ if(reasons.length||P[state.room].solution[index]!==n){state.hp=Math.max(0,state.hp-3);state.errors++;state.score=Math.max(0,state.score-50);state.errorIndex=index;const why=reasons.length?reasons.join('·')+' 규칙에 어긋납니다.':'현재 중복은 없지만 이 문제의 완성 해와 맞지 않습니다.';message(`${why} 함정! 체력 −3.`,true);log(`${coord(index)}=${n} 오답 → 함정 −3 (${reasons.join(', ')||'완성 해 불일치'})`);emit('wrong',{index,value:n,reasons,damage:3,hp:state.hp});popup('가시 함정 −3','trap');tone('trap');updateHUD();await act('trap');if(epoch!==state.epoch)return;if(state.hp<=0){await finish(false);return;}state.busy=false;render();return;}
+ const oldRows=state.rowRewards.slice();state.board[index]=n;delete state.notes[index];state.draft=0;state.errorIndex=-1;state.turns++;state.roomTurns++;state.score+=100;emit('correct',{index,value:n,command:commands(n)});let type,desc;
+ if(n<=3){state.steps++;state.moveCount++;type='move';desc='이동 · 한 칸 전진';}
+ else if(n<=6){const gained=Math.min(6,state.shield+3)-state.shield;state.shield=Math.min(6,state.shield+3);state.defendCount++;type='defend';desc=`방어 · 보호막 +${gained}`;}
+ else{state.enemyHp=Math.max(0,state.enemyHp-3);state.attackTotal++;type=n===9?'skill':'attack';desc='공격 · 피해 3';if(n===9){state.enemyHp=Math.max(0,state.enemyHp-2);state.charge++;state.skillCount++;state.score+=25;desc='숲의 파동 · 피해 5 + 위협 1턴 지연';emit('skill',{damage:5});}}
+ tone(type);popup(desc,type);message(`${coord(index)}=${n} 정답! ${desc}.`);log(`${coord(index)}=${n} → ${desc}`);render();await act(type);if(epoch!==state.epoch)return;
+ const r=Math.floor(index/9);if(!oldRows[r]&&state.board.slice(r*9,r*9+9).every(Boolean)){state.rowRewards[r]=true;state.enemyHp=Math.max(0,state.enemyHp-1);state.score+=50;state.rowAttackCount++;emit('row_attack',{row:r,damage:1});log(`${r+1}행 완성 → 추가 룬 타격 1`);popup(`${r+1}행 완성 · 룬 타격 +1`);for(let i=r*9;i<r*9+9;i++)cells[i].classList.add('rowFlash');updateHUD();await act('attack',{row:true,quick:true});if(epoch!==state.epoch)return;}
+ if(state.enemyHp>0){state.charge--;if(state.charge<=0){const damage=2+(state.attackCount%3===2?1:0),blocked=Math.min(damage,state.shield);state.shield-=blocked;state.hp=Math.max(0,state.hp-(damage-blocked));state.attackCount++;state.charge=state.attackCount%2===0?2:3;log(blocked===damage?`그늘짐승 공격 ${damage} → 보호막으로 모두 막음`:`그늘짐승 공격 ${damage} → 체력 −${damage-blocked}${blocked?' · 보호막 '+blocked+' 흡수':''}`);emit('enemy_attack',{damage,blocked,hp:state.hp});popup(blocked===damage?'공격을 막았습니다':`그늘의 공격 −${damage-blocked}`,blocked===damage?'defend':'trap');tone(blocked===damage?'defend':'trap');updateHUD();await act('enemyAttack',{blocked:blocked===damage});if(epoch!==state.epoch)return;}}
+ else if(!state.enemyDefeatedLogged){state.enemyDefeatedLogged=true;log('그늘짐승 격퇴. 남은 봉인을 풀어 출구를 여세요.');emit('enemy_defeated');}
+ if(state.hp<=0){await finish(false);return;}
+ if(state.board.every(Boolean)&&state.steps>=state.requiredSteps&&state.enemyHp===0){state.busy=false;await completeRoom();return;}
+ if(state.board.every(Boolean)){state.fatal='보드 완료 후 출구/적 조건이 남았습니다.';throw Error(state.fatal);}
+ state.busy=false;render();
+ }catch(error){state.busy=false;state.fatal=String(error);emit('runtime_error',{error:String(error)});message('동작 처리에 문제가 생겼습니다. 다시 시작을 누르세요.',true);console.error(error);renderBoard();}
+}
+async function completeRoom(){const epoch=state.epoch;state.busy=true;state.seals++;state.phase='interlude';state.stageDurations.push(Math.round((performance.now()-state.roomStarts[state.room])/1000));emit('room_clear',{id:P[state.room].id,steps:state.steps,hp:state.hp});tone('win');render();await act('clear');if(epoch!==state.epoch)return;state.busy=false;if(state.room===3){await finish(true);return;}showModal(modalHeading(`FOREST SEAL 0${state.seals} / 04`,`${names[state.room]}<br>봉인 해제`)+`<p>숲의 인장을 얻었습니다. 다음은 <b>${shortNames[state.room+1]}</b> 던전입니다.<br>${P[state.room+1].ruleDescription}</p><div class="rewards"><button id="rewardHeal"><b>회복의 이끼</b>체력 +3<small>현재 ${state.hp}/${state.maxHp}</small></button><button id="rewardShield"><b>서리 방패</b>보호막 +3<small>최대 6 · 다음 방에 유지</small></button></div><p class="mini">보상을 고르면 다음 숲으로 이동합니다.</p>`);$('rewardHeal').onclick=()=>nextRoom('heal');$('rewardShield').onclick=()=>nextRoom('shield');}
+function nextRoom(reward){if(state.phase!=='interlude')return;if(reward==='heal')state.hp=Math.min(state.maxHp,state.hp+3);else state.shield=Math.min(6,state.shield+3);emit('reward',{reward,hp:state.hp,shield:state.shield});state.room++;state.enemyDefeatedLogged=false;state.phase='playing';hideModal();prepareRoom();tone('correct');}
+async function finish(won){state.busy=false;state.phase=won?'won':'lost';state.finishedAt=performance.now();emit(won?'win':'loss',{hp:state.hp,score:state.score,turns:state.turns,errors:state.errors});render();const seconds=Math.round((state.finishedAt-state.playStart)/1000),elapsed=`${Math.floor(seconds/60)}:${String(seconds%60).padStart(2,'0')}`;showModal(modalHeading(won?'THE FOREST REMEMBERS':'RETURN TO THE MOSS',won?'네 봉인을 풀고,<br>숲을 빠져나왔습니다.':'탐험자가 숲으로<br>되돌아왔습니다.')+`<div class="seal">${won?'◇ ◇ ◇ ◇':'◇'}</div><p>${won?'숫자는 길과 방패와 힘이 되었습니다. 네 가지 규칙을 넘어 숲의 인장 4개를 모았습니다.':'체력이 0이 되었습니다. 오답 함정은 보호막을 뚫고 피해 3을 줍니다. 위협이 다가오면 방어 숫자부터 풀어보세요.'}</p><div class="stats"><div><b>${state.score}</b>탐험 점수</div><div><b>${state.seals} / 4</b>숲의 인장</div><div><b>${elapsed}</b>탐험 시간</div></div><p>정답 ${state.turns} · 함정 ${state.errors} · 가로줄 타격 ${state.rowAttackCount} · 스킬 ${state.skillCount}</p><button id="endRestart" class="modalPrimary">${won?'새 탐험':'처음부터 재도전'}</button><p class="mini">이 결말과 수치는 짧은 대표 구간의 시험 규칙입니다.</p>`);$('endRestart').onclick=startGame;if(won)tone('win');}
+function showHelp(){if(!ready||state.busy||state.phase!=='playing')return;helpReturn=state.phase;state.phase='help';showModal(modalHeading('HOW TO READ THE FOREST','정답을 고르고,<br>순서를 결정하세요.')+`<p>같은 행·열·3×3에는 1~9가 한 번씩 들어갑니다. 지금 던전: <b>${shortNames[state.room]}</b><br>${P[state.room].ruleDescription}</p><table class="ruleTable"><tr><td>1 · 2 · 3</td><td>한 칸 전진. 출구는 세 번 이동하면 도착.</td></tr><tr><td>4 · 5 · 6</td><td>보호막 +3. 최대 6, 적의 피해부터 흡수.</td></tr><tr><td>7 · 8 · 9</td><td>피해 3. 9는 추가 피해 2 + 적 위협 1턴 지연.</td></tr><tr><td>가로줄 완성</td><td>해당 행마다 추가 룬 타격 1을 한 번 지급.</td></tr><tr><td>오답 확정</td><td>규칙 위반 또는 완성 해 불일치 → 함정 피해 3.</td></tr></table><p>숫자 초안과 메모는 턴을 쓰지 않습니다. 정답을 확정할 때만 적의 예고가 줄어듭니다. 모든 빈칸·출구·적을 해결하면 다음 방으로 이동합니다.</p><button id="closeHelp" class="modalPrimary">계속 탐험하기</button><p class="mini">숫자표·HP·보상·종료는 시제품 가정입니다. 게임 전체 최종 규칙은 미확정입니다.</p>`);$('closeHelp').onclick=()=>{state.phase=helpReturn;hideModal();};}
+function restartAsk(){if(!ready||state.busy||state.phase!=='playing')return;const before=state.phase;state.phase='restart_confirm';showModal(modalHeading('A NEW EXPEDITION','처음부터 다시<br>탐험할까요?')+'<p>지금까지의 숫자, 체력, 보호막, 점수와 인장을 초기화합니다.</p><button id="confirmRestart" class="modalPrimary">처음부터 시작</button><button id="cancelRestart" class="modalSecondary">계속 탐험</button>');$('confirmRestart').onclick=startGame;$('cancelRestart').onclick=()=>{state.phase=before;hideModal();if(before==='won'||before==='lost')finish(before==='won');};}
+function wire(){for(let i=0;i<81;i++){const b=document.createElement('button');b.type='button';b.dataset.cell=i;b.setAttribute('role','gridcell');b.onclick=()=>select(i);$('board').appendChild(b);cells.push(b);}for(let n=1;n<=9;n++){const b=document.createElement('button');b.dataset.number=n;b.className=n<=3?'moveNum':n<=6?'defendNum':'attackNum';b.innerHTML=n+`<span>${n===9?'공격+스킬':commands(n)}</span>`;b.setAttribute('aria-label',`숫자 ${n} ${commands(n)}`);b.onclick=()=>choose(n);$('numberpad').appendChild(b);}$('confirmBtn').onclick=submit;$('memoBtn').onclick=memo;$('eraseBtn').onclick=erase;$('helpBtn').onclick=showHelp;$('restartBtn').onclick=restartAsk;$('reloadBtn').onclick=()=>location.reload();$('soundBtn').onclick=()=>{sound=!sound;$('soundBtn').textContent=sound?'소리 ON':'소리 OFF';$('soundBtn').setAttribute('aria-label',sound?'소리 켜짐':'소리 꺼짐');};document.addEventListener('keydown',e=>{if(state.phase!=='playing'||state.busy||e.ctrlKey||e.metaKey||e.altKey)return;if(/^[1-9]$/.test(e.key)){e.preventDefault();choose(+e.key);}else if(e.key==='Enter'){e.preventDefault();submit();}else if(e.key==='m'||e.key==='M'){e.preventDefault();memo();}else if(e.key==='Backspace'||e.key==='Delete'){e.preventDefault();erase();}else if(e.key.startsWith('Arrow')){e.preventDefault();let i=state.selected>=0?state.selected:0,r=Math.floor(i/9),c=i%9;if(e.key==='ArrowUp')r=(r+8)%9;if(e.key==='ArrowDown')r=(r+1)%9;if(e.key==='ArrowLeft')c=(c+8)%9;if(e.key==='ArrowRight')c=(c+1)%9;select(r*9+c);}else if(e.key==='Escape'){state.draft=0;renderBoard();}});}
+function showFatal(error){state.epoch++;state.fatal=String(error);state.phase='error';state.busy=true;emit('fatal',{error:String(error)});showModal(modalHeading('3D VIEW UNAVAILABLE','숲의 화면을<br>불러올 수 없습니다.')+'<p>WebGL을 사용할 수 있는 Chrome 또는 Edge에서 다시 열어주세요. 그래픽 연결이 복구되면 다시 불러올 수 있습니다.</p><p id="errorDetail"></p><button id="fatalReload" class="modalPrimary">다시 불러오기</button>');$('errorDetail').textContent=String(error);$('fatalReload').onclick=()=>location.reload();}
+$('dungeonCanvas').addEventListener('dungeonsceneerror',e=>showFatal(e.detail));
+window.__gameDebug=()=>JSON.parse(JSON.stringify({...state,soundEnabled:sound,audioState:audio?.state||'not-started',scene:window.DungeonScene?.getDebug(),protocol:location.protocol,ready,elapsed:state.playStart?Math.round(((state.finishedAt||performance.now())-state.playStart)/1000):0}));
+wire();state.board=P[0].givens.slice();renderBoard();$('journey').innerHTML=shortNames.map((n,i)=>`<div class="stage ${i===0?'current':''}"><b>${i+1}</b><span>${n}</span></div>`).join('');
+(async()=>{try{await window.DungeonScene.init($('dungeonCanvas'));ready=true;$('startBtn').disabled=false;$('startBtn').textContent='숲에 들어가기';$('startBtn').onclick=startGame;window.__boot={ready:true,protocol:location.protocol,assetKeys:Object.keys(window.__ASSETS__),scene:window.DungeonScene.getDebug()};}catch(error){state.fatal=String(error);$('startBtn').textContent='3D 로딩 실패';$('fatalDetail').textContent='WebGL이 사용 가능한 Chrome 또는 Edge에서 다시 열어주세요. '+String(error);$('fatal').classList.remove('hidden');showFatal(error);console.error(error);window.__boot={ready:false,error:String(error),protocol:location.protocol};}})();
+})();
+
+
+
+</script>
+</body></html>
+
